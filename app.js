@@ -1,3 +1,7 @@
+window.onload = () => {
+    document.getElementById("auth-modal").style.display="block";
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     
     let itemId = 0;
