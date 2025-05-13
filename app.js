@@ -1,9 +1,44 @@
-window.onload = () => {
-    document.getElementById("auth-modal").style.display="block";
-};
+function saveListToBubble(listItems) {
+    if (!authToken) {
+        alert("You must log in before saving.");
+        return;
+    }
+
+    fetch("https://personalportfoliohah.bubbleapps.io/api/1.1/shopping_list", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${authToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ items: listItems })
+    })
+    .then(response => response.json())
+    .then(data => console.log("Saved:", data))
+    .catch(error => console.error("Error saving:", error));
+}
+
+window.saveListToBubble = saveListToBubble;
+
 
 document.addEventListener("DOMContentLoaded", () => {
+    const mainContent = document.getElementById("auth-modal");
+
+    function showAuthModal() {
+        const modal = document.getElementById("auth-modal");
+        modal.style.display = "block";
+        mainContent.classList.add("blurred");
+    }
     
+    function hideAuthModal() {
+        const modal = document.getElementById("auth-modal");
+        modal.style.display = "none";
+        mainContent.classList.remove("blurred")
+    }
+
+    window.hideAuthModal = hideAuthModal;
+    
+    showAuthModal();
+
     let itemId = 0;
 
 

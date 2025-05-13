@@ -3,6 +3,18 @@ body {
     margin: 20px;
 }
 
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0, 4px, 12px rgba(0,0,0,0.3);
+}
+
 .input-area {
     margin-bottom: 20px;
 }
@@ -147,3 +159,8 @@ button {
     text-align: center;
 }
 
+.blurred {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select:none;
+}
