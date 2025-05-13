@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping App</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>Shopping List</h1>
+    <div class="input-area">
+        <input id="item-input" placeholder="Enter an item" />
+        <button id="add-button">Add Item</button>
+    </div>
+    <div id="unsorted-items" class="item-list">
+        <h3>Unsorted Items</h3>
+    </div>
+    <div class="store-columns">
+        <div class="store" id="store1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>Store A</h3>
+            <div class="store-items">
+            </div>
+            <div class="store-total" id="total-store1">Total: $0.00</div> <!-- Corrected ID -->
+        </div>
+        
+        <div class="store" id="store2" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>Store B</h3>
+            <div class="store-items">
+            </div>
+            <div class="store-total" id="total-store2">Total: $0.00</div> <!-- Corrected ID -->
+        </div>
+        
+        <div class="store" id="store3" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h3>Store C</h3>
+            <div class="store-items"></div>
+            <div class="store-total" id="total-store3">Total: $0.00</div> <!-- Corrected ID -->
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
