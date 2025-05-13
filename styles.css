@@ -1,9 +1,10 @@
 body {
-    font-style: Lato;
+    font-family: 'Lato', sans-serif;
     margin: 20px;
 }
 
 .modal {
+    visibility: hidden; /*Remove this later */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -12,7 +13,7 @@ body {
     background: white;
     padding: 1rem;
     border-radius: 8px;
-    box-shadow: 0, 4px, 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .modal-content {
@@ -26,22 +27,24 @@ body {
     width: 300px;
 }
 
+.modal-content input {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+.modal-content .primary-button {
+    width: 100%;
+    margin-left: 0;
+    align-self: stretch;
+}
+
 .modal-content button {
-    padding: 8ox 12px;
+    padding: 8px 12px;
 }
 
 .modal-content button#login-btn {
     margin-top: auto;
-}
-
-.modal-content button + button {
-    margin-left: 10px;
-    align-self: flex-end;
-}
-
-.modal-content input {
-    width: 100%;
-    box-sizing: border-box;
+    align-self: flex-start; /* aligns with input */
 }
 
 .auth-toggles {
@@ -49,21 +52,24 @@ body {
     gap: 1rem;
 }
 
+
 .primary-button {
     padding: 8px 12px;
-    border: 1px solid #007bff;
-    background-color: #007bff;
+    border: 1px solid #d67777;
+    background-color: #d67777;
     color: white;
     border-radius: 4px;
     cursor: pointer;
-    width: 100%;
-    max-width: 280px;
+    width: 200px !important;
+    margin-left: 0 auto;     /* Align with input */
+    display: block;
+    align-self: stretch;  /* Ensure it doesn't center itself */
 }
 
 .link-button {
     background: none;
     border: none;
-    color: #007bff;
+    color: #d67777;
     text-decoration: underline;
     cursor: pointer;
     padding: 0;
@@ -73,43 +79,27 @@ body {
     display: none;
 }
 
+
 .auth-fields {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 30px;
+    margin: 10px 0 30px;
 }
-
-.auth-action {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-    
-}
-
-.auth-signup-link {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 8px;
-}
-
-.auth-action,
-.auth-signup-link {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-}
-
 
 .auth-action button {
     display: block;
     width: 100%;
     max-width: 280px;
-    margin-left: auto;
+    margin-left: 0;
 }
 
-.auth-action button,
+.auth-signup-link {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
 .auth-signup-link button {
     margin-left: 10px;
 }
@@ -119,13 +109,16 @@ body {
 }
 
 input {
+    background: #f7caca;
     padding: 10px;
-    width: 300px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 button {
     padding: 10px 15px;
 }
+
 #unsorted-items {
     background: repeating-linear-gradient(
         to bottom,
@@ -153,7 +146,6 @@ button {
     cursor: grab;
     font-family: 'Courier New', Courier, monospace;
     white-space: pre-line;
-    padding: 10px;
     background-color: transparent;
     border-radius: 5px;
 }
@@ -171,8 +163,6 @@ button {
 }
 
 .price-row {
-    visibility: visible;
-    height: auto;
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -189,7 +179,7 @@ button {
     font-size: 13px;
     white-space: nowrap;
     font-weight: 500;
-    box-shadow: 1px 1px 2ps rgba(0, 0, 0, 0.10);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .store {
@@ -199,8 +189,7 @@ button {
     justify-content: space-between;
     flex: 1;
     border: 2px dashed #ccc;
-    padding: 10px;
-    padding-bottom: 40px;
+    padding: 10px 10px 40px;
     min-height: 200px;
     border-radius: 10px;
     box-sizing: border-box;
@@ -246,20 +235,20 @@ button {
     color: red;
 }
 
-.store {
-    flex: 1;
-    border: 2px dashed #ccc;
-    padding: 10px;
-    min-height: 200px;
-    border-radius: 10px;
+#auth-title {
+    color: #d67777;
+}
+
+.auth-title h2 {
+    color: #d67777;
 }
 
 .store h3 {
     text-align: center;
 }
 
-.blurred {
+/* .blurred {
     filter: blur(4px);
     pointer-events: none;
-    user-select:none;
-}
+    user-select: none;
+} */
