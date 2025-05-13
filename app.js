@@ -21,7 +21,8 @@ window.saveListToBubble = saveListToBubble;
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    const mainContent = document.getElementById("auth-modal");
+    const mainContent = document.getElementById("main-content");
+    const modal = document.getElementById("auth-modal");
 
     function showAuthModal() {
         const modal = document.getElementById("auth-modal");
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.hideAuthModal = hideAuthModal;
-    
+
     showAuthModal();
 
     let itemId = 0;

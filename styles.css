@@ -15,6 +15,105 @@ body {
     box-shadow: 0, 4px, 12px rgba(0,0,0,0.3);
 }
 
+.modal-content {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+}
+
+.modal-content button {
+    padding: 8ox 12px;
+}
+
+.modal-content button#login-btn {
+    margin-top: auto;
+}
+
+.modal-content button + button {
+    margin-left: 10px;
+    align-self: flex-end;
+}
+
+.modal-content input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.auth-toggles {
+    display: flex;
+    gap: 1rem;
+}
+
+.primary-button {
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 280px;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.auth-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.auth-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    
+}
+
+.auth-signup-link {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.auth-action,
+.auth-signup-link {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+
+.auth-action button {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    margin-left: auto;
+}
+
+.auth-action button,
+.auth-signup-link button {
+    margin-left: 10px;
+}
+
 .input-area {
     margin-bottom: 20px;
 }

@@ -9,15 +9,25 @@
 <body>
     <div id="auth-modal" class="modal">
         <div class="modal-content">
-            <h2>Sign In or Sign Up</h2>
-            <input type="email" id="auth-email" placeholder="Email" required />
-            <input type="password" id="auth-password" placeholder="Password" required />
-            <button id="login-btn">Log In</button>
-            <button id="signup-btn">Sign Up</button>
+            <h2 id="auth-title">Log In</h2>
+
+            <!-- Input Fields -->
+            <div class="auth-fields">
+                <input id="auth-name" type="text" placeholder="Name" class="hidden" />
+                <input id="auth-email" type="email" placeholder="Email" required />
+                <input id="auth-password" type="password" placeholder="Password" required />
+                <input id="auth-password-confirm" type="password" placeholder="Confirm Password" class="hidden" />
+            </div>
+
+            <!-- Login/Sign Up Toggles as Action Buttons -->
+            <div class="auth-toggles">
+                <button id="login-toggle" class="primary-button">Log In</button>
+                <button id="signup-toggle" class="link-button">Sign Up</button>
+            </div>
         </div>
     </div>
 
-    <div id="main-content">
+    <div id="main-content" class="blurred">
         <h1>Shopping List</h1>
         <div class="input-area">
             <input id="item-input" placeholder="Enter an item" />
@@ -27,24 +37,20 @@
             <h3>Unsorted Items</h3>
         </div>
         <div class="store-columns">
-            <div class="store" id="store1" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="store" id="store1">
                 <h3>Store A</h3>
-                <div class="store-items">
-                </div>
-                <div class="store-total" id="total-store1">Total: $0.00</div> <!-- Corrected ID -->
+                <div class="store-items"></div>
+                <div class="store-total" id="total-store1">Total: $0.00</div>
             </div>
-            
-            <div class="store" id="store2" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="store" id="store2">
                 <h3>Store B</h3>
-                <div class="store-items">
-                </div>
-                <div class="store-total" id="total-store2">Total: $0.00</div> <!-- Corrected ID -->
+                <div class="store-items"></div>
+                <div class="store-total" id="total-store2">Total: $0.00</div>
             </div>
-            
-            <div class="store" id="store3" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <div class="store" id="store3">
                 <h3>Store C</h3>
                 <div class="store-items"></div>
-                <div class="store-total" id="total-store3">Total: $0.00</div> <!-- Corrected ID -->
+                <div class="store-total" id="total-store3">Total: $0.00</div>
             </div>
         </div>
     </div>
@@ -52,3 +58,4 @@
     <script src="app.js"></script>
 </body>
 </html>
+
