@@ -6,30 +6,22 @@
     <title>Shopping App</title>
     <link rel="stylesheet" href="styles.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lato&family=Macondo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div id="auth-modal" class="modal">
         <div class="modal-content">
-            <h2 id="auth-title">Log In</h2>
-
-            <!-- Input Fields -->
-            <div class="auth-fields">
-                <input id="auth-name" type="text" placeholder="Name" class="hidden" />
-                <input id="auth-email" type="email" placeholder="Email" required />
-                <input id="auth-password" type="password" placeholder="Password" required />
-                <input id="auth-password-confirm" type="password" placeholder="Confirm Password" class="hidden" />
-            </div>
-
-            <!-- Login/Sign Up Toggles as Action Buttons -->
-           
-            <div class="auth-action">
-                <button id="auth-action-btn" class="primary-button">Log In</button>
-            </div>
-            <div class="auth-signup-link">
-                <button id="signup-toggle" class="link-button">Sign Up</button>
-            </div>
+          <h2 id="auth-title">Log In</h2>
+          <input type="text" id="auth-name" placeholder="Name" style="display: none;">
+          <input type="email" id="auth-email" placeholder="Email">
+          <input type="password" id="auth-password" placeholder="Password">
+          <input type="password" id="auth-confirm-password" placeholder="Confirm Password" style="display: none;">
+          <button id="auth-action-btn" class="auth-action-btn" style="width: 100%;">Log In</button>
+          <p style="text-align: center; margin-top: 10px;">
+            <a href="#" id="toggle-auth-mode" class="auth-toggle-link">Sign Up</a>
+          </p>
         </div>
-    </div>
+      </div>
 
     <div id="main-content" class="blurred">
         <h1>Shopping List</h1>
@@ -58,12 +50,15 @@
             </div>
         </div>
         <div class="button-group">
-            <div class="input-area">
-                <button id="add-button" class="send-to-device">Send to device</button>
-            </div>
-            <div class="input-area">
-                <button id="add-button">Save</button>
-            </div>
+            <button class="send-to-device" title="Send to Device">
+                <i class="fas fa-share-alt"></i> Send to Device
+              </button>
+              <button class="copy-to-clipboard" title="Copy to Clipboard">
+                <i class="fas fa-clipboard"></i> Copy
+              </button>
+              <button class="download" title="Download List">
+                <i class="fas fa-download"></i> Download
+              </button>
         </div>
     </div>
     <script src="auth.js"></script>
