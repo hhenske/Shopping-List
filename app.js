@@ -1,25 +1,80 @@
-function saveListToBubble(listItems) {
-    if (!authToken) {
-        alert("You must log in before saving.");
-        return;
-    }
+const supabaseURL = 'https://ojltmztuzqgfsgnpsidh.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qbHRtenR1enFnZnNnbnBzaWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcyNjIyMTIsImV4cCI6MjA2MjgzODIxMn0.vbYazcB_2vJJApl6qfyBcRJc7mRMY3ay32VvV7Nio0U';
 
-    fetch("https://personalportfoliohah.bubbleapps.io/api/1.1/shopping_list", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${authToken}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ items: listItems })
-    })
-    .then(response => response.json())
-    .then(data => console.log("Saved:", data))
-    .catch(error => console.error("Error saving:", error));
+const supabase = window.supabase.createClient(supabaseURL, supabaseKey)
+
+
+
+async function saveListToSupabase(userID, listItems) {
+    const { data, error } = await supabase
+        .from('grocery_lists')
+        .insert([
+            { user_id: userID, items: JSON.stringify(listItems) }
+        ]);
+    if (error) {
+        console.error("Insert error:", error);
+        alert("Failed to save list");
+    } else {
+        console.log("Saved:", data);
+        alert("List saved successfully!");
+    }
 }
 
-window.saveListToBubble = saveListToBubble;
+async function fetchListsForUser(userId) {
+    const { data, error } = await supabase
+        .from('grocery_lists')
+        .select('*')
+        .eq('user_id', userId);
+
+    if (error) {
+        console.error("Fetch error:", error);
+        return [];
+    }
+    return data;
+}
+
+async function checkUser() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+        saveListToSupabase(user.id, myListItems);
+    }
+}
+
+checkUser();
 
 
+async function updateListInSupabase(listId, updatedItems) {
+    const { data, error } = await supabase
+        .from('grocery_lists')
+        .update({ items: JSON.stringify(updatedItems) })
+        .eq('id', listId);
+
+    if (error) {
+        console.error("Update error:", error);
+        alert("Failed to update list.");
+    } else {
+        console.log("Updated list:", data);
+        alert("List updated successfully!");
+    }
+}
+
+async function deleteListFromSupabase(listId) {
+    const { data, error } = await supabase
+        .from('grocery_lists')
+        .delete()
+        .eq('id', listId);
+
+    if (error) {
+        console.error("Delete error:", error);
+        alert("Failed to delete list");
+    } else {
+        console.log("Deleted list:", data);
+        alert("List deleted successfully!");
+    }
+}
+
+
+    
 document.addEventListener("DOMContentLoaded", () => {
     const mainContent = document.getElementById("main-content");
     const modal = document.getElementById("auth-modal");
