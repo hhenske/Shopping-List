@@ -18,7 +18,38 @@ function getUser() {
   return supabase.auth.getUser();
 }
 console.log("Auth script loaded");
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  if (!window.client) {
+    console.error("Supabase client not found. Waiting for initialization...");
+
+    const waitForClient = setInterval(() => {
+      if (window.client) {
+        clearInterval(waitForClient);
+      
+        window.client.auth.exchangeCodeForSession().then(({ data, error }) => {
+          if (error) {
+            console.error("Error getting session from URL:", error.message);
+          } else if (data.session) {
+            console.log("Session restored from URL", data.session)
+          }
+        });
+      }
+    }, 50)
+  } else {
+    window.client.auth.exchangeCodeForSession().then(({ data, error }) => {
+      if (error) {
+        console.error("Error getting session from URL:", error.message);
+      } else if (data.session) {
+        console.log("Session restored form URL", data.session);
+      }
+    });
+  }
+});
+
+
+
 // Auth toggle elements
   const authTitle = document.getElementById('auth-title');
   const nameField = document.getElementById('auth-name');
@@ -79,4 +110,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
-  });
+  

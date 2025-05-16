@@ -28,26 +28,42 @@
         <h1>Shopping List</h1>
         <div class="input-row">
             <input id="item-input" placeholder="Enter an item" />
-            <button id="add-button">Add Item</button>
+            <button id="add-button" class="add-button">
+                <i class="fas fa-plus"></i>
+                Add Item</button>
         </div>
-        <div id="unsorted-items" class="item-list">
-            <h3>Unsorted Items</h3>
+        <div id="unsorted-items">
+            <h3>Grocery List</h3>
+            <p>Drag grocery items to the store list you would like to add them to:</p>
+            <div id="unsorted-list-items" class="item-list"></div>
         </div>
         <div class="store-container">
             <div class="store" id="store1">
-                <h3>Store A</h3>
+                <div class="store-header">
+                    <h3>Store A</h3>
+                </div>
                 <div class="store-items"></div>
-                <div class="store-total" id="total-store1">Total: $0.00</div>
+                <div class="store-footer">
+                    <div class="store-total" id="total-store1">Total: $0.00</div>
+                </div>
             </div>
             <div class="store" id="store2">
-                <h3>Store B</h3>
+                <div class="store-header">
+                    <h3>Store B</h3>
+                </div>
                 <div class="store-items"></div>
-                <div class="store-total" id="total-store2">Total: $0.00</div>
+                <div class="store-footer">
+                    <div class="store-total" id="total-store2">Total: $0.00</div>
+                </div>
             </div>
             <div class="store" id="store3">
-                <h3>Store C</h3>
+                <div class="store-header">
+                    <h3>Store C</h3>
+                </div>
                 <div class="store-items"></div>
-                <div class="store-total" id="total-store3">Total: $0.00</div>
+                <div class="store-footer">
+                    <div class="store-total" id="total-store3">Total: $0.00</div>
+                </div>
             </div>
         </div>
         <div class="button-group">

@@ -1,7 +1,8 @@
 const supabaseURL = 'https://ojltmztuzqgfsgnpsidh.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qbHRtenR1enFnZnNnbnBzaWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcyNjIyMTIsImV4cCI6MjA2MjgzODIxMn0.vbYazcB_2vJJApl6qfyBcRJc7mRMY3ay32VvV7Nio0U';
 
-const supabase = window.supabase.createClient(supabaseURL, supabaseKey)
+const supabase = window.supabase.createClient(supabaseURL, supabaseKey);
+window.client = supabase;
 
 
 
@@ -32,6 +33,8 @@ async function fetchListsForUser(userId) {
     }
     return data;
 }
+
+let myListItems = [];
 
 async function checkUser() {
     const { data: { user } } = await supabase.auth.getUser();
@@ -100,7 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function addItem() {
         const input = document.getElementById("item-input");
-        const itemName = input.value.trim();
+        let itemName = input.value.trim();
+        itemName = itemName.charAt(0).toUpperCase() + itemName.slice(1);
         if (!itemName) return;
 
         const priceA = (Math.random() * 10 + 1).toFixed(2);
@@ -125,9 +129,24 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         `;
 
-        document.getElementById("unsorted-items").appendChild(item);
+        const trash = document.createElement("span");
+        trash.className = "trash";
+        trash.innerHTML = "🗑️";
+        trash.title = "Remove item";
+        trash.onclick = () => item.remove();
+
+        item.appendChild(trash);
+
+        document.getElementById("unsorted-list-items").appendChild(item);
         input.value = "";
         }
+
+    document.getElementById("item-input").addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            addItem();
+        }
+    })
 
     function allowDrop(ev) {
         ev.preventDefault();

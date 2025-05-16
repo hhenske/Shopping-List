@@ -17,6 +17,11 @@
     color: var(--color-red-light);
   }
 
+  h1 {
+    font-family: var(--font-button);
+    font-size: 48px;
+  }
+
   .blurred {
     filter: blur(5px);
     pointer-events: none; /* Prevent interaction with the background */
@@ -48,9 +53,18 @@
     min-height: 200px;
     margin-bottom: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15)
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
   }
   
+  #unsorted-items .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
   .store {
     flex: 1 1 30%;
     background-image: 
@@ -79,19 +93,24 @@
 }
 
 .store .item {
-    background-color: #fff;
-  border: 1px solid #ddd;
+  /* background-color: #fff;
+  border: 1px solid #ddd; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 0.5rem 0;
   padding: 0.5rem;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  /* box-shadow: 0 1px 3px rgba(0,0,0,0.05); */
 }
 
 .trash {
     float: right;
     cursor: pointer;
+    flex-direction: column;
     font-size: 1.2em;
     margin-left: 0.5rem;
+    margin-top: 4px;
 }
 
 .store-total {
@@ -105,22 +124,54 @@
     background-color: #f0f8ff;
 }
 
-  .store h3 {
+.store h3 {
     font-family: var(--font-button);
     color: var(--color-red-deep);
     margin-top: 0;
   }
   
-  .store-items {
+.store-items {
     margin-top: 10px;
   }
   
-  .item {
-    background-color: var(--color-gray-light);
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-bottom: 5px;
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-radius: 6px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
   }
+
+  .item-content {
+    flex: 1;
+  }
+
+  .item-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 15rem;
+  }
+
+.price-row {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.85em;
+    margin-top: 4px;
+}  
+
+#unsorted-items h3 {
+    font-size: 36px;
+    color: var(--color-brown-darker);
+    font-family: var(--font-button);
+    margin-bottom: 0;
+}
+
+#unsorted-items p {
+    margin-top: 0.15rem;
+    color: var(--color-brown-dark);
+}
   
   /* Modal styles */
   .modal {
@@ -180,21 +231,26 @@
   /* Buttons */
   button {
     padding: 10px 20px;
-    font-size: 14px;
+    font-size: 18px;
     cursor: pointer;
     border: none;
     border-radius: 5px;
     display: inline-flex;
     align-items: center;
-    margin: 10px 5px;
+    margin-top: 30px;
+    justify-content: center;
+    margin-bottom: 20px;
     transition: background-color 0.3s ease;
     font-family: var(--font-button);
     text-align: center;
+    width: 200px;
+    gap: 10px;
+    text-align: center;
   }
   
-  button i {
+  /* button i {
     margin-right: 8px;
-  }
+  } */
   
   /* Themed Buttons */
   .send-to-device {
@@ -222,10 +278,10 @@
   }
   
   .add-button {
-    padding: 0 1.5rem; /* horizontal padding only */
-    font-size: 1rem;
-    background-color: var(--color-red-deep);
+    background-color: var(--color-red-dark);
     color: white;
+    padding: 0 1.5rem;
+    font-size: 1rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -233,6 +289,9 @@
     align-items: center;
     justify-content: center;
     font-family: var(--font-button);
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+    height: 36px;
   }
 
   .add-button:hover {
@@ -284,12 +343,29 @@
     background-color: var(--color-red-dark);
   }
 
-/* Disabled buttons */
-button:disabled {
+ Disabled buttons
+ button:disabled {
     background-color: var(--color-disabled);
     cursor: not-allowed;
-  }
+  } 
   
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px; /* optional, adds spacing between buttons */
+    margin-top: 1rem; /* optional, adds spacing above the buttons */
+  }
+
+
+.store-header, .store-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+
+
   /* Responsive stacking */
   @media (max-width: 600px) {
     button {
@@ -312,8 +388,7 @@ button:disabled {
   .input-row {
     display: flex;
     gap: 0.5rem;
-    padding: 1rem;
-    max-width: 100%;
+    max-width: 700px;
     box-sizing: border-box;
     align-items: stretch;
   }
@@ -326,4 +401,6 @@ button:disabled {
     border-radius: 8px;
     box-sizing: border-box;
     font-family: var(--font-primary);
+    height: 36px;
+    margin-top: 30px;
   }
