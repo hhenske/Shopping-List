@@ -1,9 +1,5 @@
-const supabaseURL = 'https://ojltmztuzqgfsgnpsidh.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qbHRtenR1enFnZnNnbnBzaWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcyNjIyMTIsImV4cCI6MjA2MjgzODIxMn0.vbYazcB_2vJJApl6qfyBcRJc7mRMY3ay32VvV7Nio0U';
 
-const supabase = window.supabase.createClient(supabaseURL, supabaseKey);
-window.client = supabase;
-
+const supabase = window.supabase;
 
 
 async function saveListToSupabase(userID, listItems) {
@@ -34,32 +30,34 @@ async function fetchListsForUser(userId) {
     return data;
 }
 
-let myListItems = [];
 
 async function checkUser() {
     const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
+    if (user && Array.isArray(myListItems) && myListItems.length > 0) {
         saveListToSupabase(user.id, myListItems);
     }
 }
 
-checkUser();
 
+async function collectStoreLists(listId, updatedItems) {
+    const stores = ["store1", "store2", "store3"];
+    const lists = {};
 
-async function updateListInSupabase(listId, updatedItems) {
-    const { data, error } = await supabase
-        .from('grocery_lists')
-        .update({ items: JSON.stringify(updatedItems) })
-        .eq('id', listId);
+    stores.forEach(storeId => {
+        const store = document.getElementById(storeId);
+        const items = [];
 
-    if (error) {
-        console.error("Update error:", error);
-        alert("Failed to update list.");
-    } else {
-        console.log("Updated list:", data);
-        alert("List updated successfully!");
-    }
-}
+        store.querySelectorAll(".item").forEach(item => {
+            const name = item.querySelector("strong")?.textContent || "";
+            const price = item.dataset.price || "";
+            items.push({ name, price});
+        });
+
+        lists[storeId] = items;
+    });
+
+    return lists;
+
 
 async function deleteListFromSupabase(listId) {
     const { data, error } = await supabase
@@ -79,6 +77,12 @@ async function deleteListFromSupabase(listId) {
 
     
 document.addEventListener("DOMContentLoaded", () => {
+    (async () => {
+    //get current user
+    const { data: { user }, error: userError } = await supabase.auth.getUser();        if (userError || !user) {
+        alert("You must be logged in to add items.");
+        return;
+        }
     const mainContent = document.getElementById("main-content");
     const modal = document.getElementById("auth-modal");
 
@@ -99,9 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
     showAuthModal();
 
     let itemId = 0;
+    let prices = [];
 
-
-    function addItem() {
+    async function addItem() {
         const input = document.getElementById("item-input");
         let itemName = input.value.trim();
         itemName = itemName.charAt(0).toUpperCase() + itemName.slice(1);
@@ -110,6 +114,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const priceA = (Math.random() * 10 + 1).toFixed(2);
         const priceB = (Math.random() * 10 + 1).toFixed(2);
         const priceC = (Math.random() * 10 + 1).toFixed(2);
+        prices = [priceA, priceB, priceC];
+
+        
+
+        const { data, error } = await supabase
+        .from('grocery_items') // use your actual table name
+        .insert([{
+          name: itemName,
+          user_id: user.id,
+          price_a: priceA,
+          price_b: priceB,
+          price_c: priceC
+        }]);
+    
+      if (error) {
+        console.error("Supabase insert error:", error);
+        alert("Failed to save item.");
+        return;
+      }
 
         const item = document.createElement("div");
         item.className = "item";
@@ -221,8 +244,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const totalDisplay = document.getElementById(`total-${storeId}`);
         totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
-        
     }
 
+    document.getElementById("save-button").addEventListener("click", async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            alert("You must be logged in to save lists.");
+            return;
+        }
+
+        const storeLists = collectStoreLists();
+        await saveListToSupabase(user.id, storeLists)
+        });
+
+    });
 });
 
+}

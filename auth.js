@@ -1,3 +1,8 @@
+const supabaseURL = 'https://ojltmztuzqgfsgnpsidh.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qbHRtenR1enFnZnNnbnBzaWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcyNjIyMTIsImV4cCI6MjA2MjgzODIxMn0.vbYazcB_2vJJApl6qfyBcRJc7mRMY3ay32VvV7Nio0U';
+
+const supabase = window.supabase.createClient(supabaseURL, supabaseKey);
+window.supabase = supabase;
 
 
 async function signUp(email, password, name) {
@@ -17,40 +22,17 @@ async function logIn(email, password) {
 function getUser() {
   return supabase.auth.getUser();
 }
+
 console.log("Auth script loaded");
 
+function hideAuthModal() {
+  document.getElementById('auth-modal').style.display = 'none';
+  document.getElementById('main-content').classList.remove('blurred');
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
-
-  if (!window.client) {
-    console.error("Supabase client not found. Waiting for initialization...");
-
-    const waitForClient = setInterval(() => {
-      if (window.client) {
-        clearInterval(waitForClient);
-      
-        window.client.auth.exchangeCodeForSession().then(({ data, error }) => {
-          if (error) {
-            console.error("Error getting session from URL:", error.message);
-          } else if (data.session) {
-            console.log("Session restored from URL", data.session)
-          }
-        });
-      }
-    }, 50)
-  } else {
-    window.client.auth.exchangeCodeForSession().then(({ data, error }) => {
-      if (error) {
-        console.error("Error getting session from URL:", error.message);
-      } else if (data.session) {
-        console.log("Session restored form URL", data.session);
-      }
-    });
-  }
-});
-
-
-
-// Auth toggle elements
+  // Auth toggle elements
   const authTitle = document.getElementById('auth-title');
   const nameField = document.getElementById('auth-name');
   const emailField = document.getElementById('auth-email');
@@ -63,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let isSignUp = false;
 
   function updateAuthForm() {
-    console.log("Updating form for", isSignUp ? "Sign Up" : "Log In");
+    
     authTitle.textContent = isSignUp ? 'Sign Up' : 'Log In';
     nameField.style.display = isSignUp ? 'block' : 'none';
     confirmPasswordField.style.display = isSignUp ? 'block' : 'none';
@@ -110,4 +92,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
-  
+  });

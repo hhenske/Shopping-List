@@ -269,11 +269,11 @@
     background-color: var(--color-brown-darker);
   }
   
-  .download {
+  .save {
     background-color: var(--color-gray-light);
     color: black;
   }
-  .download:hover {
+  .save:hover {
     background-color: var(--color-gray-darker);
   }
   
