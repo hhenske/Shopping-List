@@ -1,7 +1,3 @@
-
-const supabase = window.supabase;
-
-
 async function saveListToSupabase(userID, listItems) {
     const { data, error } = await supabase
         .from('grocery_lists')
@@ -30,7 +26,6 @@ async function fetchListsForUser(userId) {
     return data;
 }
 
-
 async function checkUser() {
     const { data: { user } } = await supabase.auth.getUser();
     if (user && Array.isArray(myListItems) && myListItems.length > 0) {
@@ -38,8 +33,7 @@ async function checkUser() {
     }
 }
 
-
-async function collectStoreLists(listId, updatedItems) {
+function collectStoreLists() {
     const stores = ["store1", "store2", "store3"];
     const lists = {};
 
@@ -50,14 +44,14 @@ async function collectStoreLists(listId, updatedItems) {
         store.querySelectorAll(".item").forEach(item => {
             const name = item.querySelector("strong")?.textContent || "";
             const price = item.dataset.price || "";
-            items.push({ name, price});
+            items.push({ name, price });
         });
 
         lists[storeId] = items;
     });
 
     return lists;
-
+}
 
 async function deleteListFromSupabase(listId) {
     const { data, error } = await supabase
@@ -74,190 +68,186 @@ async function deleteListFromSupabase(listId) {
     }
 }
 
-
-    
 document.addEventListener("DOMContentLoaded", () => {
     (async () => {
-    //get current user
-    const { data: { user }, error: userError } = await supabase.auth.getUser();        if (userError || !user) {
-        alert("You must be logged in to add items.");
-        return;
-        }
-    const mainContent = document.getElementById("main-content");
-    const modal = document.getElementById("auth-modal");
-
-    function showAuthModal() {
-        const modal = document.getElementById("auth-modal");
-        modal.style.display = "block";
-        mainContent.classList.add("blurred");
-    }
-    
-    function hideAuthModal() {
-        const modal = document.getElementById("auth-modal");
-        modal.style.display = "none";
-        mainContent.classList.remove("blurred")
-    }
-
-    window.hideAuthModal = hideAuthModal;
-
-    showAuthModal();
-
-    let itemId = 0;
-    let prices = [];
-
-    async function addItem() {
-        const input = document.getElementById("item-input");
-        let itemName = input.value.trim();
-        itemName = itemName.charAt(0).toUpperCase() + itemName.slice(1);
-        if (!itemName) return;
-
-        const priceA = (Math.random() * 10 + 1).toFixed(2);
-        const priceB = (Math.random() * 10 + 1).toFixed(2);
-        const priceC = (Math.random() * 10 + 1).toFixed(2);
-        prices = [priceA, priceB, priceC];
-
-        
-
-        const { data, error } = await supabase
-        .from('grocery_items') // use your actual table name
-        .insert([{
-          name: itemName,
-          user_id: user.id,
-          price_a: priceA,
-          price_b: priceB,
-          price_c: priceC
-        }]);
-    
-      if (error) {
-        console.error("Supabase insert error:", error);
-        alert("Failed to save item.");
-        return;
-      }
-
-        const item = document.createElement("div");
-        item.className = "item";
-        const prices = [priceA, priceB, priceC];
-        item.dataset.prices = JSON.stringify(prices);
-        item.draggable = true;
-        item.id = `item-${itemId++}`;
-        item.ondragstart = drag;
-        item.innerHTML = `
-        <div class="item-content">
-            <strong>${itemName}</strong>
-            <div class="price-row">
-                <span>Store A: $${priceA}</span>
-                <span>Store B: $${priceB}</span>
-                <span>Store C: $${priceC}</span>
-            </div>
-        </div>
-        `;
-
-        const trash = document.createElement("span");
-        trash.className = "trash";
-        trash.innerHTML = "🗑️";
-        trash.title = "Remove item";
-        trash.onclick = () => item.remove();
-
-        item.appendChild(trash);
-
-        document.getElementById("unsorted-list-items").appendChild(item);
-        input.value = "";
-        }
-
-    document.getElementById("item-input").addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            addItem();
-        }
-    })
-
-    function allowDrop(ev) {
-        ev.preventDefault();
-    }
-
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-
-    function drop(ev) {
-        ev.preventDefault();
-        const data = ev.dataTransfer.getData("text");
-        const item = document.getElementById(data);
-        item.classList.remove("dragging");
-    
-        const dropZone = ev.target.closest(".store, #unsorted-items");
-        if (!dropZone) return;
-    
-        const itemsContainer = dropZone.querySelector(".store-items") || dropZone;
-        itemsContainer.appendChild(item);
-    
-        if (dropZone.classList.contains("store")) {
-            const storeId = dropZone.id;
-    
-            // Remove price row
-            const priceRow = item.querySelector(".price-row");
-            if (priceRow) priceRow.remove();
-    
-            // Save selected price
-            const storeIndex = storeId === "store1" ? 0 : storeId === "store2" ? 1 : 2;
-            const originalPrices = JSON.parse(item.dataset.prices || "[]");
-            const chosenPrice = originalPrices[storeIndex];
-            if (chosenPrice) item.dataset.price = chosenPrice;
-    
-            // Add trash icon if not present
-            if (!item.querySelector(".trash")) {
-                const trash = document.createElement("span");
-                trash.className = "trash";
-                trash.innerHTML = "🗑️";
-                trash.title = "Remove item";
-                trash.onclick = () => {
-                    item.remove();
-                    updateStoreTotal(storeId);
-                };
-                item.appendChild(trash);
-            }
-    
-            updateStoreTotal(storeId);
-        }
-    }
-    
-    document.getElementById("add-button").addEventListener("click", addItem);
-
-    const stores = document.querySelectorAll(".store");
-    stores.forEach(store => {
-        store.addEventListener("dragover", allowDrop);
-        store.addEventListener("drop", drop);
-    });
-
-    function updateStoreTotal(storeId) {
-        const store = document.getElementById(storeId);
-        const items = store.querySelectorAll(".item");
-        let total = 0;
-
-        items.forEach(item => {
-            const priceMatch = item.dataset.price;
-            if (priceMatch) {
-                total += parseFloat(priceMatch);
-            }
-
-    });
-
-        const totalDisplay = document.getElementById(`total-${storeId}`);
-        totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
-    }
-
-    document.getElementById("save-button").addEventListener("click", async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-            alert("You must be logged in to save lists.");
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+            alert("You must be logged in to add items.");
             return;
         }
 
-        const storeLists = collectStoreLists();
-        await saveListToSupabase(user.id, storeLists)
+        const mainContent = document.getElementById("main-content");
+        const modal = document.getElementById("auth-modal");
+
+        function showAuthModal() {
+            modal.style.display = "block";
+            mainContent.classList.add("blurred");
+        }
+
+        function hideAuthModal() {
+            modal.style.display = "none";
+            mainContent.classList.remove("blurred");
+        }
+
+        window.hideAuthModal = hideAuthModal;
+        showAuthModal();
+
+        let itemId = 0;
+        let prices = [];
+
+        async function addItem() {
+            console.log("addItem() triggered");
+
+            const input = document.getElementById("item-input");
+            let itemName = input.value.trim();
+
+            if (!itemName) {
+                console.log("Item name is empty");
+                return;
+            }
+
+            itemName = itemName.charAt(0).toUpperCase() + itemName.slice(1);
+
+            const priceA = (Math.random() * 10 + 1).toFixed(2);
+            const priceB = (Math.random() * 10 + 1).toFixed(2);
+            const priceC = (Math.random() * 10 + 1).toFixed(2);
+            prices = [priceA, priceB, priceC];
+
+            const { data, error } = await supabase
+                .from('grocery_items')
+                .insert([{
+                    name: itemName,
+                    user_id: user.id,
+                    price_a: priceA,
+                    price_b: priceB,
+                    price_c: priceC
+                }]);
+
+            if (error) {
+                console.error("Supabase insert error:", error);
+                alert("Failed to save item.");
+                return;
+            }
+
+            console.log("Item inserted into Supabase: ", data);
+
+            const item = document.createElement("div");
+            item.className = "item";
+            item.dataset.prices = JSON.stringify(prices);
+            item.draggable = true;
+            item.id = `item-${itemId++}`;
+            item.ondragstart = drag;
+
+            item.innerHTML = `
+                <div class="item-content">
+                    <strong>${itemName}</strong>
+                    <div class="price-row">
+                        <span>Store A: $${priceA}</span>
+                        <span>Store B: $${priceB}</span>
+                        <span>Store C: $${priceC}</span>
+                    </div>
+                </div>
+            `;
+
+            const trash = document.createElement("span");
+            trash.className = "trash";
+            trash.innerHTML = "🗑️";
+            trash.title = "Remove item";
+            trash.onclick = () => item.remove();
+
+            item.appendChild(trash);
+
+            document.getElementById("unsorted-list-items").appendChild(item);
+            input.value = "";
+        }
+
+        document.getElementById("item-input").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                addItem();
+            }
         });
 
-    });
-});
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
 
-}
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const item = document.getElementById(data);
+            item.classList.remove("dragging");
+
+            const dropZone = ev.target.closest(".store, #unsorted-items");
+            if (!dropZone) return;
+
+            const itemsContainer = dropZone.querySelector(".store-items") || dropZone;
+            itemsContainer.appendChild(item);
+
+            if (dropZone.classList.contains("store")) {
+                const storeId = dropZone.id;
+
+                const priceRow = item.querySelector(".price-row");
+                if (priceRow) priceRow.remove();
+
+                const storeIndex = storeId === "store1" ? 0 : storeId === "store2" ? 1 : 2;
+                const originalPrices = JSON.parse(item.dataset.prices || "[]");
+                const chosenPrice = originalPrices[storeIndex];
+                if (chosenPrice) item.dataset.price = chosenPrice;
+
+                if (!item.querySelector(".trash")) {
+                    const trash = document.createElement("span");
+                    trash.className = "trash";
+                    trash.innerHTML = "🗑️";
+                    trash.title = "Remove item";
+                    trash.onclick = () => {
+                        item.remove();
+                        updateStoreTotal(storeId);
+                    };
+                    item.appendChild(trash);
+                }
+
+                updateStoreTotal(storeId);
+            }
+        }
+
+        document.getElementById("add-button").addEventListener("click", addItem);
+
+        const stores = document.querySelectorAll(".store");
+        stores.forEach(store => {
+            store.addEventListener("dragover", allowDrop);
+            store.addEventListener("drop", drop);
+        });
+
+        function updateStoreTotal(storeId) {
+            const store = document.getElementById(storeId);
+            const items = store.querySelectorAll(".item");
+            let total = 0;
+
+            items.forEach(item => {
+                const priceMatch = item.dataset.price;
+                if (priceMatch) {
+                    total += parseFloat(priceMatch);
+                }
+            });
+
+            const totalDisplay = document.getElementById(`total-${storeId}`);
+            totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        document.getElementById("save-button").addEventListener("click", async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                alert("You must be logged in to save lists.");
+                return;
+            }
+
+            const storeLists = collectStoreLists();
+            await saveListToSupabase(user.id, storeLists);
+        });
+    })();
+});
