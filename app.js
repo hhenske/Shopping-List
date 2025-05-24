@@ -1,9 +1,21 @@
 async function saveListToSupabase(userID, listItems) {
+    const title = prompt("Enter a title for your grocery list: ", "Untitled List");
+
+    if (!title) {
+        alert("List title is required.");
+        return;
+    }
+
     const { data, error } = await supabase
         .from('grocery_lists')
         .insert([
-            { user_id: userID, items: JSON.stringify(listItems) }
+            { 
+                user_id: userID, 
+                title: title,
+                items: JSON.stringify(listItems) 
+            }
         ]);
+        
     if (error) {
         console.error("Insert error:", error);
         alert("Failed to save list");
@@ -94,11 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let itemId = 0;
         let prices = [];
+        const unsortedItems = [];
 
-        async function addItem() {
+        function addItem() {
             console.log("addItem() triggered");
 
-            const input = document.getElementById("item-input");
+            const input = document.getElementById("item-input")
             let itemName = input.value.trim();
 
             if (!itemName) {
@@ -111,31 +124,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const priceA = (Math.random() * 10 + 1).toFixed(2);
             const priceB = (Math.random() * 10 + 1).toFixed(2);
             const priceC = (Math.random() * 10 + 1).toFixed(2);
-            prices = [priceA, priceB, priceC];
+            const prices = [priceA, priceB, priceC];
 
-            const { data, error } = await supabase
-                .from('grocery_items')
-                .insert([{
-                    name: itemName,
-                    user_id: user.id,
-                    price_a: priceA,
-                    price_b: priceB,
-                    price_c: priceC
-                }]);
-
-            if (error) {
-                console.error("Supabase insert error:", error);
-                alert("Failed to save item.");
-                return;
-            }
-
-            console.log("Item inserted into Supabase: ", data);
-
-            const item = document.createElement("div");
+            let item = document.createElement("div");
             item.className = "item";
             item.dataset.prices = JSON.stringify(prices);
             item.draggable = true;
-            item.id = `item-${itemId++}`;
+            item.id = `item-$itemID++`;
             item.ondragstart = drag;
 
             item.innerHTML = `
@@ -179,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
         function drop(ev) {
             ev.preventDefault();
             const data = ev.dataTransfer.getData("text");
-            const item = document.getElementById(data);
+            let item = document.getElementById(data);
             item.classList.remove("dragging");
 
             const dropZone = ev.target.closest(".store, #unsorted-items");
