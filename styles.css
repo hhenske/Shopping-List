@@ -172,6 +172,19 @@
     margin-top: 0.15rem;
     color: var(--color-brown-dark);
 }
+
+#list-title {
+  width: 300px;
+  height: 36px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--color-disabled);
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: var(--font-primary);
+  margin-top: 20px;
+  margin-bottom: 5px; /* reduce space below input */
+}
   
   /* Modal styles */
   .modal {
@@ -228,6 +241,7 @@
     border-radius: 5px;
   }
   
+
   /* Buttons */
   button {
     padding: 10px 20px;
@@ -351,11 +365,17 @@
   
   .button-group {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px; /* optional, adds spacing between buttons */
-    margin-top: 1rem; /* optional, adds spacing above the buttons */
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 20px;
+    gap: 5px; /* optional, adds spacing between buttons */
+    
   }
 
+  #buttons {
+    flex-direction: row;
+    gap: 20px;
+  }
 
 .store-header, .store-footer {
     display: flex;

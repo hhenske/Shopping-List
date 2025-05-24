@@ -1,5 +1,6 @@
 async function saveListToSupabase(userID, listItems) {
-    const title = prompt("Enter a title for your grocery list: ", "Untitled List");
+    const titleInput = document.getElementById("list-title")
+    const title = titleInput.value.trim();
 
     if (!title) {
         alert("List title is required.");
@@ -15,7 +16,7 @@ async function saveListToSupabase(userID, listItems) {
                 items: JSON.stringify(listItems) 
             }
         ]);
-        
+
     if (error) {
         console.error("Insert error:", error);
         alert("Failed to save list");

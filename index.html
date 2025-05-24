@@ -66,8 +66,11 @@
                 </div>
             </div>
         </div>
+        
         <div class="button-group">
-            <button class="send-to-device" title="Send to Device">
+            <input type="text" id="list-title" placeholder="Enter title for this list" />
+            <div id="buttons">
+                <button class="send-to-device" title="Send to Device">
                 <i class="fas fa-share-alt"></i> Send to Device
               </button>
               <button class="copy-to-clipboard" title="Copy to Clipboard">
@@ -76,6 +79,7 @@
               <button class="save" title="saveList" id="save-button">
                 <i class="fas fa-download"></i> Save
               </button>
+            </div>
         </div>
     </div>
     <script src="auth.js"></script>
