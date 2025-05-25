@@ -48,6 +48,11 @@
   margin-bottom: 1rem;
 }
 
+.checked-off {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
 .saved-list-header h2 {
   font-family: var(--font-button);
   color: var(--color-red-deep);

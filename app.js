@@ -1,10 +1,3 @@
-DocumentFragment.getElementById('toggle-saved-lists').addEventListener('click', (e) => {
-    e.preventDefault();
-    const listDiv = document.getElementById('saved-lists');
-    listDiv.style.display=listDive.style.display === 'none' ? 'block' : 'none';
-});
-
-
 
 async function saveListToSupabase(userID, listItems) {
     const titleInput = document.getElementById("list-title")
@@ -123,6 +116,44 @@ document.addEventListener("DOMContentLoaded", () => {
         let itemId = 0;
         let prices = [];
         const unsortedItems = [];
+
+        document.getElementById("toggle-saved-lists").addEventListener("click", async (e) => {
+            e.preventDefault();
+        
+            const container = document.getElementById("saved-lists");
+            if (container.style.display === "none") {
+                // Show and fetch
+                container.innerHTML = ""; // clear any existing
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) {
+                    alert("You must be logged in to view saved lists.");
+                    return;
+                }
+        
+                const lists = await fetchListsForUser(user.id);
+                lists.forEach(list => {
+                    const parsedItems = JSON.parse(list.items);
+                    const formatted = {
+                        id: list.id,
+                        title: list.title,
+                        store1: parsedItems.store1 || [],
+                        store2: parsedItems.store2 || [],
+                        store3: parsedItems.store3 || []
+                    };
+        
+                    const listDiv = renderSavedListHTML(formatted);
+                    container.appendChild(listDiv);
+                    attachSavedListHandlers(listDiv);
+                });
+        
+                container.style.display = "block";
+                e.target.textContent = "Hide Saved Lists";
+            } else {
+                container.style.display = "none";
+                e.target.textContent = "Show Saved Lists";
+            }
+        });
+
 
         function addItem() {
             console.log("addItem() triggered");

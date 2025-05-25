@@ -23,7 +23,7 @@
           </p>
         </div>
       </div>
-
+    </div>
     <div id="main-content" class = "blurred">
         <h1>Shopping List</h1>
         <div class="input-row">
@@ -33,41 +33,10 @@
                 Add Item</button>
         </div>
         
-        <p>
-            <a href ="#" id="toggle-saved-lists">Show Saved Lists</a>
-        </p>
-        <div id="saved-lists" style="display: none;">
-            <div class="saved-list">
-                <div class="saved-list-header">
-                    <h2>Saved Lists</h2>
-                    <button class="delete-list"><i class="fas fa-trash-alt"></i> Delete List</button>
-                </div>
-                
-                <div class="saved-stores">
-                    <div class="saved-store">
-                        <h3>Store A</h3>
-                        <div class="saved-items-grid">
-                            <div class="saved-item">
-                                <span class="item-text">Milk</span>
-                                <div class="item-actions">
-                                    <button class="check-off"><i class="fas fa-check"></i></button>
-                                    <button class="remove-item"><i class="fas fa-times"></i></button>
-                                </div>
-                            </div>
-                            <div class="saved-store">
-                                <h3>Store B</h3>
-                                <div class="saved-items-grid">
-                                  <!-- items -->
-                                </div>
-                              </div>
-                          
-                              <div class="saved-store">
-                                <h3>Store C</h3>
-                                <div class="saved-items-grid">
-                                  <!-- items -->
-                                </div>
-                              </div>
+        <p><a href="#" id="toggle-saved-lists">Show Saved Lists</a></p>
 
+    <!-- Saved Lists will be inserted here dynamically -->
+    <div id="saved-lists" style="display: none;"></div>
         <div id="unsorted-items">
             <h3>Grocery List</h3>
             <p>Drag grocery items to the store list you would like to add them to:</p>
@@ -120,7 +89,40 @@
     </div>
     <script src="auth.js"></script>
     <script src="app.js"></script>
+    <script src="savedLists.js"></script>
     <script src="send.js"></script>
+    
+    <template id="saved-list-template">
+        <div class="saved-list">
+            <div class="saved-list-header">
+                <h2 class="saved-list-title"></h2>
+                <button class="delete-list">
+                    <i class="fas fa-trash-alt"> Delete List</i>
+                </button>
+            </div>
+            <div class="saved-stores">
+
+            </div>
+        </div>
+    </template>
+    
+<template id="saved-store-template">
+    <div class="saved-store">
+      <h3 class="store-name"></h3>
+      <div class="saved-items-grid">
+        <!-- Items will be appended here -->
+      </div>
+    </div>
+  </template>
+  <template id="saved-item-template">
+    <div class="saved-item">
+      <span class="item-text"></span>
+      <div class="item-actions">
+        <button class="check-off"><i class="fas fa-check"></i></button>
+        <button class="remove-item"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+  </template>
 </body>
 </html>
 
