@@ -1,6 +1,6 @@
 # 🛒 Shopping List App
 
-A web-based shopping list manager that lets you organize items by store, with functionality to download, share, or send lists to other devices. Built with HTML, CSS, JavaScript, and a Bubble.io backend.
+A web-based shopping list manager that lets you organize items by store, with functionality to download, share, or send lists to other devices. Built with HTML, CSS, JavaScript, and Supabase backend.
 
 ## ✨ Features
 
