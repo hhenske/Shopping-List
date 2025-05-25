@@ -8,7 +8,7 @@ A web-based shopping list manager that lets you organize items by store, with fu
 - ➕ Add, remove, and sort items dynamically
 - 📤 Send list data to a device (as JSON)
 - 📋 Copy plain text version of the list
-- 💾 Download your list as a `.json` file
+- 💾 Save list on a database and open saved lists later
 - 🔒 Modal-based login/signup interface
 
 ## 🖼️ UI Highlights
@@ -23,15 +23,9 @@ A web-based shopping list manager that lets you organize items by store, with fu
 ## 📁 Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript
-- **Backend:** [Bubble.io](https://bubble.io)
+- **Backend:** Supabase
 - **Fonts:** Google Fonts (Lato, Macondo)
 - **Icons:** Font Awesome
-
-## 📦 Coming Soon
-
-- List syncing across devices
-- User-specific saved lists
-- Auto-suggestions based on past entries
 
 ## 🧪 Local Development
 
@@ -44,13 +38,8 @@ open index.html # or double-click it
 
 ## 🧪 To Do:
 #### Currently, we are randomly generating prices for each store. The app is supposed to find prices from 3 local stores, Costco, Aldi and Walmart and display those instead, so shoppers can decide which store list to put each item on. It's probably most efficient to have users make the list first, then make 1 api call to each store for the items on the list. Then allow users to sort into store lists. Here are the steps I think I need:
-1- Locate APIs, find endpoints and how to access
-2 - Decide what details I want to display (price, description, image?)
-3 - Remove  and replace price logic and Store A, B, C
-4 - Add a button to initiate API calls
+1- Locate APIs, find endpoints and how to access (This has proven more difficult than predicted, due to a lack of publicly accessible APIs to find local prices from specific stores. I intend to look at data-scraping to access the necessary data)
+2 - Remove  and replace price logic and Store A, B, C
 5 - Display price and details when available
-6 - Hide store lists below the unsorted list until price and details are displays
-7 - Show store lists for users to click/drag items to
-8 - switch click/drag to a mobile friendly drag and drop: sortable.js
-9 - Reconsider buttons on bottom of page because we need a save to database and hopefully one or two of the current options won't be necessary
-10 - change the READ.me to reflect what is actually happening
+6 - switch click/drag to a mobile friendly drag and drop: sortable.js
+7 - change the READ.me to reflect what is actually happening
