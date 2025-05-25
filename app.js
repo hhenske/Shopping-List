@@ -1,3 +1,11 @@
+DocumentFragment.getElementById('toggle-saved-lists').addEventListener('click', (e) => {
+    e.preventDefault();
+    const listDiv = document.getElementById('saved-lists');
+    listDiv.style.display=listDive.style.display === 'none' ? 'block' : 'none';
+});
+
+
+
 async function saveListToSupabase(userID, listItems) {
     const titleInput = document.getElementById("list-title")
     const title = titleInput.value.trim();
@@ -23,6 +31,13 @@ async function saveListToSupabase(userID, listItems) {
     } else {
         console.log("Saved:", data);
         alert("List saved successfully!");
+        document.getElementById('list-title').value = '';
+        document.querySelectorAll('.store-items').forEach(store => {
+            store.innerHTML = '';
+        document.querySelectorAll('.store-total').forEach(total => {
+            total.textContent = 'Total: $0.00';
+        });
+        });
     }
 }
 
