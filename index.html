@@ -34,6 +34,9 @@
         </div>
         
         <p><a href="#" id="toggle-saved-lists">Show Saved Lists</a></p>
+        <p id="secondary-toggle-link" style="display: none;">
+            <a href="#" id="hide-saved-lists-secondary">Hide Saved Lists</a>
+        </p>
 
     <!-- Saved Lists will be inserted here dynamically -->
     <div id="saved-lists" style="display: none;"></div>
@@ -119,7 +122,7 @@
       <span class="item-text"></span>
       <div class="item-actions">
         <button class="check-off"><i class="fas fa-check"></i></button>
-        <button class="remove-item"><i class="fas fa-times"></i></button>
+        <button class="remove-item" title="Remove-item"><i class="fas fa-trash"></i></button>
       </div>
     </div>
   </template>

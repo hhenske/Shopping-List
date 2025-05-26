@@ -120,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("toggle-saved-lists").addEventListener("click", async (e) => {
             e.preventDefault();
         
+            const addButton = document.getElementById("add-button");
+            
             const container = document.getElementById("saved-lists");
             if (container.style.display === "none") {
                 // Show and fetch
@@ -148,9 +150,13 @@ document.addEventListener("DOMContentLoaded", () => {
         
                 container.style.display = "block";
                 e.target.textContent = "Hide Saved Lists";
+                addButton.disabled = true;
+                secondaryToggle.style.display = "block";
             } else {
                 container.style.display = "none";
                 e.target.textContent = "Show Saved Lists";
+                addButton.disabled = false;
+                secondaryToggle.style.display = "none";
             }
         });
 
@@ -291,5 +297,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const storeLists = collectStoreLists();
             await saveListToSupabase(user.id, storeLists);
         });
+
+        secondaryLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            document.getElementById("saved-lists").style.display = "none";
+            document.getElementById("toggle-saved-lists").textContent = "Show Saved Lists";
+            addButton.disabled = false;
+            secondaryToggle.style.display = "none";
+        })
     })();
 });
