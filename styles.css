@@ -24,6 +24,13 @@
   font-weight:700;
 }
 
+#hide-saved-lists-secondary {
+  font-family: var(--font-button);
+  color: var(--color-red-deep);
+  margin-top: 0;
+  font-weight:700;
+}
+
 #saved-lists {
   margin-top: 2rem;
   display: flex;
@@ -439,6 +446,10 @@ h1 {
   .auth-signup-link {
     background-color: var(--color-red-light);
     color: white;
+  }
+
+  .add-button:disabled {
+    background-color: var(--color-disabled);
   }
 
   .auth-action-btn:hover,

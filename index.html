@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping App</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato&family=Macondo&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -17,74 +19,76 @@
           <input type="email" id="auth-email" placeholder="Email">
           <input type="password" id="auth-password" placeholder="Password">
           <input type="password" id="auth-confirm-password" placeholder="Confirm Password" style="display: none;">
-          <button id="auth-action-btn" class="auth-action-btn" style="width: 100%;">Log In</button>
+          <button id="auth-action-btn" class="auth-action-btn" style="width: 100%;" role="button">Log In</button>
           <p style="text-align: center; margin-top: 10px;">
             <a href="#" id="toggle-auth-mode" class="auth-toggle-link">Sign Up</a>
           </p>
         </div>
-      </div>
+    
     </div>
     <div id="main-content" class = "blurred">
         <h1>Shopping List</h1>
         <div class="input-row">
             <input id="item-input" placeholder="Enter an item" />
-            <button id="add-button" class="add-button">
+            <button id="add-button" class="add-button" role="button">
                 <i class="fas fa-plus"></i>
                 Add Item</button>
         </div>
         
-        <p><a href="#" id="toggle-saved-lists">Show Saved Lists</a></p>
-        <p id="secondary-toggle-link" style="display: none;">
-            <a href="#" id="hide-saved-lists-secondary">Hide Saved Lists</a>
-        </p>
+        <p><a href="#" id="toggle-saved-lists" role="button">Show Saved Lists</a></p>
 
     <!-- Saved Lists will be inserted here dynamically -->
     <div id="saved-lists" style="display: none;"></div>
-        <div id="unsorted-items">
-            <h3>Grocery List</h3>
-            <p>Drag grocery items to the store list you would like to add them to:</p>
-            <div id="unsorted-list-items" class="item-list"></div>
-        </div>
-        <div class="store-container">
-            <div class="store" id="store1">
-                <div class="store-header">
-                    <h3>Store A</h3>
-                </div>
-                <div class="store-items"></div>
-                <div class="store-footer">
-                    <div class="store-total" id="total-store1">Total: $0.00</div>
-                </div>
-            </div>
-            <div class="store" id="store2">
-                <div class="store-header">
-                    <h3>Store B</h3>
-                </div>
-                <div class="store-items"></div>
-                <div class="store-footer">
-                    <div class="store-total" id="total-store2">Total: $0.00</div>
-                </div>
-            </div>
-            <div class="store" id="store3">
-                <div class="store-header">
-                    <h3>Store C</h3>
-                </div>
-                <div class="store-items"></div>
-                <div class="store-footer">
-                    <div class="store-total" id="total-store3">Total: $0.00</div>
-                </div>
-            </div>
-        </div>
+
+    <p id="secondary-toggle-link" style="display: none;">
+        <a href="#" id="hide-saved-lists-secondary">Hide Saved Lists</a>
+    </p>
+
+     <div id="unsorted-items">
+        <h3>Grocery List</h3>            
+        <p>Drag grocery items to the store list you would like to add them to:</p>
+        <div id="unsorted-list-items" class="item-list"></div>
+     </div>
         
+    <div class="store-container">
+        <div class="store" id="store1">
+        <div class="store-header">
+            <h3>Store A</h3>
+        </div>
+        <div class="store-items"></div>
+        <div class="store-footer">
+            <div class="store-total" id="total-store1">Total: $0.00</div>
+        </div>
+    </div>
+    <div class="store" id="store2">
+        <div class="store-header">
+            <h3>Store B</h3>
+        </div>
+        <div class="store-items"></div>
+            <div class="store-footer">
+                <div class="store-total" id="total-store2">Total: $0.00</div>
+            </div>
+        </div>
+        <div class="store" id="store3">
+            <div class="store-header">
+                <h3>Store C</h3>
+            </div>
+            <div class="store-items"></div>
+            <div class="store-footer">
+                <div class="store-total" id="total-store3">Total: $0.00</div>
+            </div>
+        </div>
+    </div>
         <div class="button-group">
             <input type="text" id="list-title" placeholder="Enter title for this list" />
             <div id="buttons">
-                <button class="send-to-device" title="Send to Device">
+                <button class="send-to-device" title="Send to Device" role="button">
                 <i class="fas fa-share-alt"></i> Send to Device
               </button>
               <button class="copy-to-clipboard" title="Copy to Clipboard">
                 <i class="fas fa-clipboard"></i> Copy
               </button>
-              <button class="save" title="saveList" id="save-button">
+              <button class="save" title="saveList" id="save-button" role="button">
                 <i class="fas fa-download"></i> Save
               </button>
             </div>
@@ -99,12 +103,11 @@
         <div class="saved-list">
             <div class="saved-list-header">
                 <h2 class="saved-list-title"></h2>
-                <button class="delete-list">
+                <button class="delete-list" role="button">
                     <i class="fas fa-trash-alt"> Delete List</i>
                 </button>
             </div>
-            <div class="saved-stores">
-
+            <div class="saved-stores">  
             </div>
         </div>
     </template>
@@ -119,13 +122,13 @@
   </template>
   <template id="saved-item-template">
     <div class="saved-item">
-      <span class="item-text"></span>
-      <div class="item-actions">
-        <button class="check-off"><i class="fas fa-check"></i></button>
-        <button class="remove-item" title="Remove-item"><i class="fas fa-trash"></i></button>
-      </div>
-    </div>
-  </template>
-</body>
+        <span class="item-text"></span>
+            <div class="item-actions">
+                <button class="check-off" role="button" role="button"><i class="fas fa-check"></i></button>
+                <button class="remove-item" title="Remove-item" role="button"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </template>
+    </body>
 </html>
 

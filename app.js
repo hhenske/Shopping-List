@@ -99,6 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const mainContent = document.getElementById("main-content");
         const modal = document.getElementById("auth-modal");
+        const addButton = document.getElementById("secondary-toggle-link");
+        
+        const secondaryLink = document.getElementById("hide-saved-lists-secondary");
 
         function showAuthModal() {
             modal.style.display = "block";
@@ -114,13 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
         showAuthModal();
 
         let itemId = 0;
-        let prices = [];
-        const unsortedItems = [];
 
         document.getElementById("toggle-saved-lists").addEventListener("click", async (e) => {
             e.preventDefault();
-        
-            const addButton = document.getElementById("add-button");
             
             const container = document.getElementById("saved-lists");
             if (container.style.display === "none") {
@@ -147,11 +146,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     container.appendChild(listDiv);
                     attachSavedListHandlers(listDiv);
                 });
-        
+                
                 container.style.display = "block";
                 e.target.textContent = "Hide Saved Lists";
                 addButton.disabled = true;
-                secondaryToggle.style.display = "block";
+                const secondaryToggle = document.getElementById("secondary-toggle-link");
+                if (secondaryToggle) {
+                    secondaryToggle.style.display = "block";
+                }
+                
             } else {
                 container.style.display = "none";
                 e.target.textContent = "Show Saved Lists";
@@ -177,13 +180,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const priceA = (Math.random() * 10 + 1).toFixed(2);
             const priceB = (Math.random() * 10 + 1).toFixed(2);
             const priceC = (Math.random() * 10 + 1).toFixed(2);
-            const prices = [priceA, priceB, priceC];
+            prices = [priceA, priceB, priceC];
 
             let item = document.createElement("div");
             item.className = "item";
             item.dataset.prices = JSON.stringify(prices);
             item.draggable = true;
-            item.id = `item-$itemID++`;
+            item.id = `item-${itemID++}`;
             item.ondragstart = drag;
 
             item.innerHTML = `
@@ -283,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            const totalDisplay = document.getElementById(`total-${storeId}`);
+            const totalDisplay = store.querySelector(".store-total");
             totalDisplay.textContent = `Total: $${total.toFixed(2)}`;
         }
 
@@ -303,7 +306,9 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("saved-lists").style.display = "none";
             document.getElementById("toggle-saved-lists").textContent = "Show Saved Lists";
             addButton.disabled = false;
-            secondaryToggle.style.display = "none";
+
+            const secondaryToggle = document.getElementById("secondary-toggle-link");
+            if (secondaryToggle) secondaryToggle.style.display = "none";
         })
     })();
 });
