@@ -47,17 +47,17 @@ function renderSavedListHTML(list) {
         const confirmed = confirm("Are you sure you want to delete this list?");
         if (!confirmed) return;
 
-        await deleteListFromSupabase(list.id);
-        listElement.remove();
+        const success = await deleteListFromSupabase(list.id);
+        if (success) {
+            listElement.remove();
+        }
     });
 
     return listElement;
 }
 
-function attachSavedListHandlers(container) {
-    // Optional: if you want more general handlers here later
-}
+
 
 // ✅ Make functions globally accessible
 window.renderSavedListHTML = renderSavedListHTML;
-window.attachSavedListHandlers = attachSavedListHandlers;
+// window.attachSavedListHandlers = attachSavedListHandlers;

@@ -83,9 +83,11 @@ async function deleteListFromSupabase(listId) {
     if (error) {
         console.error("Delete error:", error);
         alert("Failed to delete list");
+        return false;
     } else {
         console.log("Deleted list:", data);
         alert("List deleted successfully!");
+        return true;
     }
 }
 
@@ -144,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
                     const listDiv = renderSavedListHTML(formatted);
                     container.appendChild(listDiv);
-                    attachSavedListHandlers(listDiv);
+                    // attachSavedListHandlers(listDiv);
                 });
                 
                 container.style.display = "block";
